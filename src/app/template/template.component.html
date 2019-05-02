@@ -1,0 +1,45 @@
+<h4>Template-driven Form</h4>
+<form #cadastro="ngForm" (ngSubmit)="salvar(); cadastro.resetForm()" class="formulario">
+	<mat-form-field>
+		<input matInput placeholder="Nome" [(ngModel)]="aluno.nome" name="nome" #nome="ngModel" minlength="5" maxlength="8" required>
+    <mat-hint>Forneça o seu nome completo</mat-hint>
+    <mat-error *ngIf="!nome.minlength && !nome.pristine">
+      O nome precisa ter pelo menos 5 caracteres
+    </mat-error>
+   <mat-error *ngIf="!nome.valid && nome.pristine">
+      O nome é obrigatório
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="E-mail" [(ngModel)]="aluno.mail" name="mail" required #mail="ngModel">
+    <mat-hint>Forneça o seu e-mail</mat-hint>
+    <mat-error *ngIf="!mail.valid">
+      e-mail é obrigatório
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+  <input matInput placeholder="Data de nascimento" [(ngModel)]="aluno.nascimento" name="nascimento" [matDatepicker]="calendario" [min]="minData" [max]="maxData" required #nascimento="ngModel">
+  <mat-datepicker-toggle matSuffix [for]="calendario"></mat-datepicker-toggle>
+  <mat-datepicker #calendario startView="multi-year" disabled="false"></mat-datepicker>
+  <mat-error *ngIf="!nascimento.valid">
+      A data de nascimento é obrigatória
+  </mat-error>
+</mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Curso" [(ngModel)]="aluno.curso" name="curso" required #curso="ngModel">
+      <mat-option *ngFor="let item of cursos" value="{{item}}">{{item}}</mat-option>
+    </mat-select>
+    <mat-hint>Selecione o seu curso</mat-hint>
+    <mat-error *ngIf="!curso.valid">
+      Curso é obrigatório
+    </mat-error>
+  </mat-form-field>
+
+  <div class="botoes">
+    <button mat-stroked-button type="submit" [disabled]="!cadastro.form.valid">Salvar</button>
+    <button mat-stroked-button type="button" (click)="cadastro.reset()">Limpar</button>
+  </div>
+</form>
